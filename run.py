@@ -29,6 +29,7 @@ from src.charts import (
     chart_generation_boxplot,
     chart_fleet_depreciation,
     chart_utilisation_breakeven,
+    chart_cloud_rental_rates,
 )
 from src.report import generate_report
 
@@ -79,6 +80,10 @@ def main():
 
     chart_utilisation_breakeven(out_dir)
     print("  ✓ 11  Utilisation breakeven")
+
+    chart_cloud_rental_rates(out_dir)
+    print("  ✓ 12  Cloud rental rates (verified, provider breakdown)")
+    print("  ✓ 13  Cloud rental verified historical snapshots")
 
     print("\nGenerating report...")
     report_path = "REPORT.md"

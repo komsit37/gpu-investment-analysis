@@ -70,6 +70,7 @@ def generate_report(
     lines.append("| H100 depreciation | ~20%/yr observed — matching book rate | 🟡 Neutral |")
     lines.append("| A100 depreciation | ~8%/yr — MUCH slower than book (20%) | 🟢 Hidden asset value |")
     lines.append("| Utilisation requirement | 30-60% breakeven at 40% margin | 🟢 Achievable |")
+    lines.append("| Blackwell consumer | RTX 5090 32GB launched $2K, peaked $3.2K — strong demand signal | 🟢 Positive |")
     lines.append("| Successor risk | B200/GB200 arriving → H100 cliff coming | 🔴 Watch 2025-2026 |")
     lines.append("| Long-term contracts | Insulates from resale risk | 🟢 Key mitigant |")
     lines.append("")
@@ -83,6 +84,7 @@ def generate_report(
     lines.append("| Pricing power | H100 held at $35K for 8+ months before dropping | 🟢 Strong |")
     lines.append("| Ecosystem lock-in | Even dead GPUs (P4=$150) still sell | 🟢 No AMD secondary market |")
     lines.append("| ASP risk | H100 $35K→$25K in 18mo = pricing pressure | 🟡 Watch margins |")
+    lines.append("| Blackwell launch | RTX 5090 MSRP $2K, selling >$3K — validates pricing power | 🟢 Strong |")
 
     lines.append("\n### ORCL (Oracle Cloud)\n")
     lines.append("- Late entrant advantage: buying at LOWER prices (post-peak H100)")

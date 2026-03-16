@@ -8,7 +8,8 @@ import matplotlib.ticker as mticker
 
 from .style import GEN_COLORS, CAT_MARKERS
 from .gpu_specs import GPU_SPECS
-from .price_data import PHYSICAL_PRICES, CLOUD_RENTAL_RATES
+from .price_data import PHYSICAL_PRICES, CLOUD_RENTAL_RATES, CLOUD_RENTAL_HISTORY
+from matplotlib.lines import Line2D
 
 
 def _save(fig, out_dir: str, name: str):
@@ -329,6 +330,7 @@ def chart_fleet_depreciation(out_dir: str):
         ("Bought A100s in 2020",  "Ampere",       0.08),
         ("Bought H100s in 2023",  "Hopper",       0.20),
         ("Bought L40S in 2023",   "Ada Lovelace", 0.22),
+        ("Bought RTX 5090s in 2025", "Blackwell",  0.19),
     ]
     initial = 1_000_000_000
     years = np.arange(0, 6.1, 0.25)
@@ -407,3 +409,148 @@ def chart_utilisation_breakeven(out_dir: str):
     ax.set_xlabel("Required Utilisation (%)")
     ax.grid(True, alpha=0.2, axis="x")
     _save(fig, out_dir, "11_utilisation_breakeven.png")
+
+
+# ─────────────────────────────────────────────────────────────
+# 12 — Cloud rental rates: verified snapshot data
+# ─────────────────────────────────────────────────────────────
+PROVIDER_COLORS = {
+    "gcp": "#4285F4",
+    "aws": "#FF9900",
+    "lambdalabs": "#1DB954",
+    "modal": "#A855F7",
+    "runpod": "#06B6D4",
+}
+PROVIDER_MARKERS = {
+    "gcp": "o",
+    "aws": "s",
+    "lambdalabs": "D",
+    "modal": "^",
+    "runpod": "v",
+}
+
+
+def chart_cloud_rental_rates(out_dir: str):
+    """12 — Current verified rental rates per GPU (provider breakdown)."""
+    # Sort GPUs by release date
+    gpu_order = sorted(
+        CLOUD_RENTAL_RATES.keys(),
+        key=lambda g: GPU_SPECS.get(g, {}).get("release_date", "9999-01-01"),
+    )
+
+    fig, ax = plt.subplots(figsize=(16, 10))
+
+    providers_seen = set()
+    for i, gpu in enumerate(gpu_order):
+        rates = CLOUD_RENTAL_RATES[gpu]
+        gen = GPU_SPECS.get(gpu, {}).get("generation", "?")
+        avg_rate = np.mean(list(rates.values()))
+
+        # Avg bar
+        ax.barh(i, avg_rate, color=GEN_COLORS.get(gen, "#888"),
+                alpha=0.25, height=0.6, zorder=2)
+
+        # Individual provider dots
+        for provider, rate in rates.items():
+            providers_seen.add(provider)
+            ax.scatter(rate, i,
+                       color=PROVIDER_COLORS.get(provider, "#ccc"),
+                       marker=PROVIDER_MARKERS.get(provider, "o"),
+                       s=100, zorder=5, edgecolors="white", linewidth=0.5)
+
+        # Avg label
+        ax.text(avg_rate + 0.05, i,
+                f'avg ${avg_rate:.2f}/hr',
+                va="center", fontsize=8, color="#8b949e")
+
+    # Provider legend entries
+    handles = []
+    for p in sorted(providers_seen):
+        handles.append(Line2D([0], [0],
+                              marker=PROVIDER_MARKERS.get(p, "o"),
+                              color="w",
+                              markerfacecolor=PROVIDER_COLORS.get(p, "#ccc"),
+                              markersize=9, label=p.upper(), linewidth=0))
+    # Generation bar legend
+    gens_seen = []
+    for gpu in gpu_order:
+        gen = GPU_SPECS.get(gpu, {}).get("generation", "?")
+        if gen not in gens_seen:
+            gens_seen.append(gen)
+    for gen in gens_seen:
+        handles.append(
+            plt.Rectangle((0, 0), 1, 1, fc=GEN_COLORS.get(gen, "#888"),
+                           alpha=0.35, label=f"{gen} (bar)"))
+
+    ax.set_yticks(range(len(gpu_order)))
+    ax.set_yticklabels([
+        f'{g}  [{GPU_SPECS.get(g, {}).get("generation", "?")} · '
+        f'{GPU_SPECS.get(g, {}).get("vram_gb", "?")}GB]'
+        for g in gpu_order
+    ], fontsize=9)
+    ax.set_xlabel("Cloud Rental Rate ($/hr)")
+    ax.set_title("Verified Cloud Rental Rates by GPU — Provider Breakdown\n"
+                 "(sources: RunPod API May 2025, Lambda Labs Aug 2024, Modal mid-2025)",
+                 fontsize=13, fontweight="bold", pad=15)
+    ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"${x:.2f}"))
+    ax.legend(handles=handles, fontsize=9, loc="lower right", ncol=2)
+    ax.grid(True, alpha=0.2, axis="x")
+    _save(fig, out_dir, "12_cloud_rental_rates.png")
+
+    """13 — Historical snapshots: verified data points only (no interpolation)."""
+    fig, ax = plt.subplots(figsize=(16, 10))
+
+    # Flatten all verified snapshots into scatter data
+    gpu_order_hist = sorted(
+        CLOUD_RENTAL_HISTORY.keys(),
+        key=lambda g: (GPU_SPECS.get(g, {}).get("gen_year", 9999), g),
+    )
+    providers_seen = set()
+
+    for gpu in gpu_order_hist:
+        history = CLOUD_RENTAL_HISTORY[gpu]
+        gen = GPU_SPECS.get(gpu, {}).get("generation", "?")
+        for date_str in sorted(history.keys()):
+            for prov, rate in history[date_str].items():
+                providers_seen.add(prov)
+                ax.scatter(pd.Timestamp(date_str), rate,
+                           color=PROVIDER_COLORS.get(prov, "#ccc"),
+                           marker=PROVIDER_MARKERS.get(prov, "o"),
+                           s=80, edgecolors="white", linewidth=0.5,
+                           zorder=5, alpha=0.9)
+                ax.annotate(gpu, (pd.Timestamp(date_str), rate),
+                            fontsize=6, ha="left", va="bottom",
+                            xytext=(4, 3), textcoords="offset points",
+                            color=GEN_COLORS.get(gen, "#8b949e"), alpha=0.8)
+
+    # Provider legend
+    handles = []
+    for p in sorted(providers_seen):
+        handles.append(Line2D([0], [0],
+                              marker=PROVIDER_MARKERS.get(p, "o"),
+                              color="w",
+                              markerfacecolor=PROVIDER_COLORS.get(p, "#ccc"),
+                              markersize=9, label=p.upper(), linewidth=0))
+    # Source annotations
+    sources = [
+        ("Lambda Labs\n(Wayback Sep 2022)", "2022-09-15", 1.10, "#1DB954"),
+        ("Lambda Labs\n(Wayback Aug 2024)", "2024-08-15", 2.99, "#1DB954"),
+        ("RunPod API\n(git May 2025)",      "2025-05-17", 2.99, "#06B6D4"),
+        ("Modal page\n(git mid-2025)",      "2025-05-17", 3.95, "#A855F7"),
+    ]
+    for label, x, y, color in sources:
+        ax.annotate(label, (pd.Timestamp(x), y),
+                    fontsize=7, color=color, alpha=0.6,
+                    xytext=(0, 15), textcoords="offset points",
+                    ha="center",
+                    arrowprops=dict(arrowstyle="-", color=color, lw=0.8, alpha=0.4))
+
+    ax.set_title("Verified Historical Cloud GPU Rental Rates\n"
+                 "(discrete snapshots only — no interpolation or estimates)",
+                 fontsize=14, fontweight="bold", pad=15)
+    ax.set_xlabel("Snapshot Date")
+    ax.set_ylabel("Rental Rate ($/hr)")
+    ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"${x:.2f}"))
+    ax.legend(handles=handles, fontsize=10, loc="upper right")
+    ax.grid(True, alpha=0.3)
+    _save(fig, out_dir, "13_cloud_rental_verified_snapshots.png")

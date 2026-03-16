@@ -1,5 +1,5 @@
 # NVIDIA GPU Depreciation & Investment Analysis
-_Generated: 2026-03-16 10:55_
+_Generated: 2026-03-16 12:47_
 
 > **Purpose**: Evaluate whether NVIDIA GPUs hold value over time,
 > and what that means for investing in CRWV, NBIN, NVDA, and ORCL.
@@ -24,10 +24,12 @@ _Generated: 2026-03-16 10:55_
 | GeForce RTX 4090 | Ada Lovelace | 2.7 | $3,700 → $3,200 | 86% | -7%/yr |
 | L40S | Ada Lovelace | 1.0 | $14,000 → $9,750 | 70% | 29%/yr |
 | GeForce RTX 3090 Ti | Ampere | 3.2 | $2,600 → $1,950 | 75% | 8%/yr |
+| H100 PCIe 80GB | Hopper | 1.7 | $34,800 → $25,100 | 72% | 17%/yr |
 | H100 PCIe 96GB | Hopper | 1.2 | $39,000 → $30,000 | 77% | 20%/yr |
 | L4 | Ada Lovelace | 0.9 | $3,270 → $2,500 | 76% | 17%/yr |
-| H100 PCIe 80GB | Hopper | 1.7 | $34,800 → $25,100 | 72% | 17%/yr |
 | H100 SXM5 80GB | Hopper | 0.2 | $18,550 → $18,550 | 100% | 0%/yr |
+| RTX PRO 6000 | Blackwell | 0.8 | $7,500 → $6,700 | 89% | 14%/yr |
+| GeForce RTX 5090 | Blackwell | 1.1 | $3,200 → $2,200 | 69% | 20%/yr |
 
 ## 2. Three Phases of GPU Depreciation
 
@@ -46,20 +48,20 @@ Phase 3 (4+yr):   Slow bleed ~5-10%/yr, hits a floor
 
 ## 4. Cloud Provider Coverage = Demand Signal
 
-- **Tesla T4**: 4 providers (gcp, aws, modal, runpod)
-- **A100 40GB PCIe**: 4 providers (gcp, lambdalabs, modal, runpod)
-- **H100 SXM5 80GB**: 4 providers (gcp, lambdalabs, modal, runpod)
-- **L4**: 3 providers (gcp, modal, runpod)
-- **A10G**: 2 providers (aws, modal)
+- **H100 SXM5 80GB**: 3 providers (lambdalabs, modal, runpod)
+- **A100 40GB PCIe**: 2 providers (lambdalabs, modal)
 - **H100 PCIe 80GB**: 2 providers (lambdalabs, runpod)
-- **L40S**: 2 providers (modal, runpod)
-- **Tesla P4**: 1 providers (gcp)
-- **Tesla P100 16GB**: 1 providers (gcp)
+- **L4**: 2 providers (runpod, modal)
+- **L40S**: 2 providers (runpod, modal)
+- **RTX A6000**: 2 providers (lambdalabs, runpod)
+- **Tesla T4**: 1 providers (modal)
 - **V100 SXM2 32GB**: 1 providers (runpod)
 - **A40 PCIe**: 1 providers (runpod)
+- **A10G**: 1 providers (modal)
 - **GeForce RTX 3090**: 1 providers (runpod)
 - **GeForce RTX 4090**: 1 providers (runpod)
-- **RTX A6000**: 1 providers (runpod)
+- **GeForce RTX 5090**: 1 providers (runpod)
+- **Quadro RTX 6000**: 1 providers (lambdalabs)
 
 **Old GPUs still on cloud (demand proven):** T4, V100, A100, P100, P4  
 **Old GPUs NOT on cloud (fading):** RTX 2080, RTX 3070, Quadro RTX 5000
@@ -68,19 +70,19 @@ Phase 3 (4+yr):   Slow bleed ~5-10%/yr, hits a floor
 
 | GPU | Buy Price | Rent $/hr | 3yr Rent | 3yr Buy+Elec | Savings (Buy) |
 |-----|-----------|-----------|----------|--------------|---------------|
-| H100 SXM5 80GB | $18,550 | $3.42 | $62,865 | $14,274 | $48,592 |
-| H100 PCIe 80GB | $25,100 | $2.49 | $45,837 | $18,214 | $27,623 |
-| Tesla P100 16GB | $400 | $1.46 | $26,877 | $740 | $26,136 |
-| A100 40GB PCIe | $6,800 | $1.37 | $25,174 | $5,220 | $19,954 |
-| L40S | $9,750 | $1.42 | $26,140 | $7,377 | $18,763 |
-| Tesla P4 | $150 | $0.60 | $11,045 | $565 | $10,480 |
-| L4 | $2,500 | $0.60 | $11,107 | $1,883 | $9,224 |
-| Tesla T4 | $800 | $0.42 | $7,667 | $689 | $6,978 |
-| V100 SXM2 32GB | $2,000 | $0.39 | $7,179 | $1,860 | $5,319 |
-| GeForce RTX 4090 | $3,200 | $0.44 | $8,100 | $3,068 | $5,031 |
-| RTX A6000 | $5,300 | $0.44 | $8,100 | $4,262 | $3,838 |
-| A40 PCIe | $5,800 | $0.44 | $8,100 | $4,612 | $3,488 |
-| GeForce RTX 3090 | $1,500 | $0.22 | $4,050 | $1,694 | $2,356 |
+| H100 SXM5 80GB | $18,550 | $3.31 | $60,932 | $14,274 | $46,659 |
+| H100 PCIe 80GB | $25,100 | $2.44 | $44,917 | $18,214 | $26,703 |
+| A100 40GB PCIe | $6,800 | $1.70 | $31,203 | $5,220 | $25,982 |
+| L40S | $9,750 | $1.41 | $25,864 | $7,377 | $18,487 |
+| GeForce RTX 5090 | $2,200 | $0.89 | $16,384 | $2,598 | $13,785 |
+| Tesla T4 | $800 | $0.59 | $10,861 | $689 | $10,172 |
+| GeForce RTX 4090 | $3,200 | $0.69 | $12,702 | $3,068 | $9,634 |
+| L4 | $2,500 | $0.61 | $11,321 | $1,883 | $9,439 |
+| RTX A6000 | $5,300 | $0.65 | $11,874 | $4,262 | $7,611 |
+| Quadro RTX 6000 | $1,700 | $0.50 | $9,204 | $1,669 | $7,536 |
+| V100 SXM2 32GB | $2,000 | $0.49 | $9,020 | $1,860 | $7,160 |
+| GeForce RTX 3090 | $1,500 | $0.43 | $7,916 | $1,694 | $6,221 |
+| A40 PCIe | $5,800 | $0.40 | $7,363 | $4,612 | $2,751 |
 
 ## 6. Investment Implications
 
@@ -91,6 +93,7 @@ Phase 3 (4+yr):   Slow bleed ~5-10%/yr, hits a floor
 | H100 depreciation | ~20%/yr observed — matching book rate | 🟡 Neutral |
 | A100 depreciation | ~8%/yr — MUCH slower than book (20%) | 🟢 Hidden asset value |
 | Utilisation requirement | 30-60% breakeven at 40% margin | 🟢 Achievable |
+| Blackwell consumer | RTX 5090 32GB launched $2K, peaked $3.2K — strong demand signal | 🟢 Positive |
 | Successor risk | B200/GB200 arriving → H100 cliff coming | 🔴 Watch 2025-2026 |
 | Long-term contracts | Insulates from resale risk | 🟢 Key mitigant |
 
@@ -105,6 +108,7 @@ that's a potential **$20K/GPU impairment** not covered by straight-line deprecia
 | Pricing power | H100 held at $35K for 8+ months before dropping | 🟢 Strong |
 | Ecosystem lock-in | Even dead GPUs (P4=$150) still sell | 🟢 No AMD secondary market |
 | ASP risk | H100 $35K→$25K in 18mo = pricing pressure | 🟡 Watch margins |
+| Blackwell launch | RTX 5090 MSRP $2K, selling >$3K — validates pricing power | 🟢 Strong |
 
 ### ORCL (Oracle Cloud)
 
@@ -163,3 +167,9 @@ KEY METRIC: Watch utilisation rates in earnings reports.
 
 ### 11 Utilisation Breakeven
 ![11_utilisation_breakeven.png](output/11_utilisation_breakeven.png)
+
+### 12 Cloud Rental Rates
+![12_cloud_rental_rates.png](output/12_cloud_rental_rates.png)
+
+### 13 Cloud Rental Verified Snapshots
+![13_cloud_rental_verified_snapshots.png](output/13_cloud_rental_verified_snapshots.png)

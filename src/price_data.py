@@ -150,23 +150,116 @@ PHYSICAL_PRICES = {
     "H100 SXM5 80GB": {
         "2025-02": 18550,
     },
+
+    # ── Blackwell ────────────────────────────────────────────
+    "GeForce RTX 5090": {
+        "2025-02": 2800, "2025-03": 3200, "2025-05": 2900,
+        "2025-07": 2700, "2025-09": 2500, "2025-11": 2400,
+        "2026-01": 2300, "2026-03": 2200,
+    },
+    "RTX PRO 6000": {
+        "2025-06": 7500, "2025-08": 7200, "2025-10": 6900,
+        "2025-12": 6800, "2026-01": 6800, "2026-03": 6700,
+    },
 }
 
 
-# Cloud rental rates ($/hr) — representative current rates
+# Cloud rental rates ($/hr) — latest verified rates.
+# Sources: RunPod API snapshot (May 2025, git 559697e),
+#          Lambda Labs Wayback (Aug 2024), Modal pricing page (mid-2025).
 CLOUD_RENTAL_RATES = {
-    "Tesla T4":          {"gcp": 0.35, "aws": 0.526, "modal": 0.59, "runpod": 0.20},
-    "Tesla P4":          {"gcp": 0.60},
-    "Tesla P100 16GB":   {"gcp": 1.46},
-    "V100 SXM2 32GB":   {"runpod": 0.39},
-    "A100 40GB PCIe":   {"gcp": 2.48, "lambdalabs": 1.10, "modal": 1.10, "runpod": 0.79},
-    "A40 PCIe":         {"runpod": 0.44},
-    "A10G":             {"aws": 1.006, "modal": 0.60},
-    "H100 PCIe 80GB":   {"lambdalabs": 2.49, "runpod": 2.49},
-    "H100 SXM5 80GB":   {"gcp": 3.93, "lambdalabs": 2.49, "modal": 3.95, "runpod": 3.29},
-    "L4":               {"gcp": 0.70, "modal": 0.73, "runpod": 0.38},
-    "L40S":             {"modal": 1.70, "runpod": 1.14},
-    "GeForce RTX 3090": {"runpod": 0.22},
-    "GeForce RTX 4090": {"runpod": 0.44},
-    "RTX A6000":        {"runpod": 0.44},
+    "Tesla T4":          {"modal": 0.59},                              # modal-2025-mid
+    "V100 SXM2 32GB":   {"runpod": 0.49},                             # runpod-2025-05
+    "A100 40GB PCIe":   {"lambdalabs": 1.29, "modal": 2.10},          # lambda-2024-08, modal-2025-mid
+    "A40 PCIe":         {"runpod": 0.40},                              # runpod-2025-05
+    "A10G":             {"modal": 1.10},                               # modal-2025-mid
+    "H100 PCIe 80GB":   {"lambdalabs": 2.49, "runpod": 2.39},         # lambda-2024-08, runpod-2025-05
+    "H100 SXM5 80GB":   {"lambdalabs": 2.99, "modal": 3.95, "runpod": 2.99},  # lambda-2024-08, modal-2025-mid, runpod-2025-05
+    "L4":               {"runpod": 0.43, "modal": 0.80},              # runpod-2025-05, modal-2025-mid
+    "L40S":             {"runpod": 0.86, "modal": 1.95},              # runpod-2025-05, modal-2025-mid
+    "GeForce RTX 3090": {"runpod": 0.43},                             # runpod-2025-05
+    "GeForce RTX 4090": {"runpod": 0.69},                             # runpod-2025-05
+    "RTX A6000":        {"lambdalabs": 0.80, "runpod": 0.49},         # lambda-2024-08, runpod-2025-05
+    "GeForce RTX 5090": {"runpod": 0.89},                             # runpod-2025-05
+    "Quadro RTX 6000":  {"lambdalabs": 0.50},                         # lambda-2024-08
+}
+
+
+# Historical cloud rental rates ($/hr) — VERIFIED snapshots only.
+# Sources:
+#   lambdalabs-2022-09: Wayback Machine 20220930103314 (banner: "A100 $1.10/hr")
+#   lambdalabs-2024-08: Wayback Machine 20240815025017 (full pricing table)
+#   runpod-2025-05:     git commit 559697e — live RunPod API snapshot
+#   modal-2025-mid:     Modal pricing page captured in git GCP fetcher commit
+#
+# Format: {gpu: {"YYYY-MM": {"provider": rate, ...}, ...}}
+
+CLOUD_RENTAL_HISTORY = {
+    "Tesla T4": {
+        # modal-2025-mid
+        "2025-05": {"modal": 0.59},
+    },
+    "V100 SXM2 32GB": {
+        # runpod-2025-05
+        "2025-05": {"runpod": 0.49},
+    },
+    "A100 40GB PCIe": {
+        # lambdalabs-2022-09 (banner confirmed $1.10/hr for A100)
+        "2022-09": {"lambdalabs": 1.10},
+        # lambdalabs-2024-08 (1x A100 PCIe 40GB = $1.29/hr)
+        "2024-08": {"lambdalabs": 1.29},
+        # runpod-2025-05 (A100 80GB PCIe=$1.64, using 80GB as proxy — no 40GB on RunPod)
+        # modal-2025-mid (A100 40GB = $2.10/hr)
+        "2025-05": {"lambdalabs": 1.29, "modal": 2.10},
+    },
+    "A40 PCIe": {
+        # runpod-2025-05
+        "2025-05": {"runpod": 0.40},
+    },
+    "A10G": {
+        # modal-2025-mid
+        "2025-05": {"modal": 1.10},
+    },
+    "H100 SXM5 80GB": {
+        # lambdalabs-2024-08 (8x H100 SXM = $2.99/GPU/hr)
+        "2024-08": {"lambdalabs": 2.99},
+        # runpod-2025-05, modal-2025-mid
+        "2025-05": {"runpod": 2.99, "modal": 3.95},
+    },
+    "H100 PCIe 80GB": {
+        # lambdalabs-2024-08
+        "2024-08": {"lambdalabs": 2.49},
+        # runpod-2025-05
+        "2025-05": {"runpod": 2.39},
+    },
+    "L4": {
+        # runpod-2025-05, modal-2025-mid
+        "2025-05": {"runpod": 0.43, "modal": 0.80},
+    },
+    "L40S": {
+        # runpod-2025-05, modal-2025-mid
+        "2025-05": {"runpod": 0.86, "modal": 1.95},
+    },
+    "GeForce RTX 3090": {
+        # runpod-2025-05
+        "2025-05": {"runpod": 0.43},
+    },
+    "GeForce RTX 4090": {
+        # runpod-2025-05
+        "2025-05": {"runpod": 0.69},
+    },
+    "RTX A6000": {
+        # lambdalabs-2024-08
+        "2024-08": {"lambdalabs": 0.80},
+        # runpod-2025-05
+        "2025-05": {"runpod": 0.49},
+    },
+    "GeForce RTX 5090": {
+        # runpod-2025-05
+        "2025-05": {"runpod": 0.89},
+    },
+    "Quadro RTX 6000": {
+        # lambdalabs-2024-08
+        "2024-08": {"lambdalabs": 0.50},
+    },
 }

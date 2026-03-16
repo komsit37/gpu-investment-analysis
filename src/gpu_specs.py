@@ -134,6 +134,17 @@ GPU_SPECS = {
         "bus_width": 256,
         "bandwidth_gbs": 448,
     },
+    "A10G": {
+        "category": "datacenter",
+        "generation": "Ampere",
+        "gen_year": 2021,
+        "release_date": "2021-04-12",
+        "vram_gb": 24,
+        "fp16_tflops": 31.52,
+        "tdp_watts": 150,
+        "bus_width": 384,
+        "bandwidth_gbs": 600,
+    },
     "GeForce RTX 3090": {
         "category": "consumer",
         "generation": "Ampere",
@@ -236,5 +247,29 @@ GPU_SPECS = {
         "tdp_watts": 700,
         "bus_width": 5120,
         "bandwidth_gbs": 3360,
+    },
+
+    # ── Blackwell (2025) ─────────────────────────────────────
+    "GeForce RTX 5090": {
+        "category": "consumer",
+        "generation": "Blackwell",
+        "gen_year": 2025,
+        "release_date": "2025-01-30",
+        "vram_gb": 32,
+        "fp16_tflops": 104.8,
+        "tdp_watts": 575,
+        "bus_width": 512,
+        "bandwidth_gbs": 1792,
+    },
+    "RTX PRO 6000": {
+        "category": "professional",
+        "generation": "Blackwell",
+        "gen_year": 2025,
+        "release_date": "2025-06-01",
+        "vram_gb": 96,
+        "fp16_tflops": 125.2,
+        "tdp_watts": 400,
+        "bus_width": 512,
+        "bandwidth_gbs": 1792,
     },
 }
