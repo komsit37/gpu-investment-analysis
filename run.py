@@ -24,6 +24,7 @@ from src.charts import (
     chart_residual_value,
     chart_annual_depreciation,
     chart_vram_vs_residual,
+    chart_compute_value,
     chart_buy_vs_rent,
     chart_cloud_coverage,
     chart_generation_boxplot,
@@ -64,6 +65,9 @@ def main():
 
     chart_vram_vs_residual(summary, out_dir)
     print("  ✓ 05  VRAM vs residual value")
+
+    chart_compute_value(summary, out_dir)
+    print("  ✓ 05b Compute value ($/TFLOPS)")
 
     tco_df = chart_buy_vs_rent(out_dir)
     print("  ✓ 06  Buy vs rent breakeven")

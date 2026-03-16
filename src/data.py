@@ -40,13 +40,16 @@ def build_summary_df(df: pd.DataFrame) -> pd.DataFrame:
         age_years = max(age_months / 12, 0.25)
         annual_depr = (1 - latest / first) / age_years * 100
 
+        fp16 = grp["fp16_tflops"].iloc[0]
+        usd_per_tflops = latest / fp16 if fp16 > 0 else 0
+
         records.append({
             "gpu": gpu,
             "generation": grp["generation"].iloc[0],
             "category": grp["category"].iloc[0],
             "gen_year": grp["gen_year"].iloc[0],
             "vram_gb": grp["vram_gb"].iloc[0],
-            "fp16_tflops": grp["fp16_tflops"].iloc[0],
+            "fp16_tflops": fp16,
             "tdp_watts": grp["tdp_watts"].iloc[0],
             "peak_price": peak,
             "first_price": first,
@@ -56,5 +59,6 @@ def build_summary_df(df: pd.DataFrame) -> pd.DataFrame:
             "age_months": age_months,
             "age_years": age_years,
             "annual_depr_pct": annual_depr,
+            "usd_per_tflops": usd_per_tflops,
         })
     return pd.DataFrame(records).sort_values("gen_year")

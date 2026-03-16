@@ -161,6 +161,38 @@ def chart_vram_vs_residual(summary: pd.DataFrame, out_dir: str):
 
 
 # ─────────────────────────────────────────────────────────────
+# 05b — Compute value: $/TFLOPS by GPU
+# ─────────────────────────────────────────────────────────────
+def chart_compute_value(summary: pd.DataFrame, out_dir: str):
+    rdf = summary[summary["fp16_tflops"] > 0].copy()
+    rdf = rdf.sort_values("usd_per_tflops")
+
+    fig, ax = plt.subplots(figsize=(16, 9))
+    x = range(len(rdf))
+    colors = [GEN_COLORS.get(g, "#888") for g in rdf["generation"]]
+    bars = ax.barh(list(x), rdf["usd_per_tflops"], color=colors, alpha=0.85, height=0.7)
+
+    for i, (_, row) in enumerate(rdf.iterrows()):
+        val = row["usd_per_tflops"]
+        ax.text(val + max(rdf["usd_per_tflops"]) * 0.01, i,
+                f'${val:,.0f}/TFLOPS  ({row["fp16_tflops"]:.0f} TFLOPS · ${row["latest_price"]:,.0f})',
+                va="center", fontsize=8.5, color="#c9d1d9")
+
+    ax.set_yticks(list(x))
+    ax.set_yticklabels([
+        f'{r["gpu"]}  [{r["generation"]} · {r["vram_gb"]:.0f}GB]'
+        for _, r in rdf.iterrows()
+    ], fontsize=9)
+    ax.set_title("Compute Value — Current Price per FP16 TFLOPS\n"
+                 "(lower = better value for raw compute)",
+                 fontsize=14, fontweight="bold", pad=15)
+    ax.set_xlabel("USD per FP16 TFLOPS (current market price)")
+    ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"${x:,.0f}"))
+    ax.grid(True, alpha=0.2, axis="x")
+    _save(fig, out_dir, "05b_compute_value_per_tflops.png")
+
+
+# ─────────────────────────────────────────────────────────────
 # 06 — Buy vs rent breakeven
 # ─────────────────────────────────────────────────────────────
 def chart_buy_vs_rent(out_dir: str) -> pd.DataFrame:

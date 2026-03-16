@@ -1,35 +1,35 @@
 # NVIDIA GPU Depreciation & Investment Analysis
-_Generated: 2026-03-16 13:26_
+_Generated: 2026-03-16 13:28_
 
 > **Purpose**: Evaluate whether NVIDIA GPUs hold value over time,
 > and what that means for investing in CRWV, NBIN, NVDA, and ORCL.
 
 ## 1. Depreciation Summary
 
-| GPU | Generation | Age (yr) | Peak → Latest | Residual | Annual Depr |
-|-----|-----------|----------|---------------|----------|-------------|
-| Tesla P4 | Pascal | 8.8 | $3,000 → $150 | 5% | 11%/yr |
-| Tesla P100 16GB | Pascal | 9.0 | $3,600 → $400 | 11% | 10%/yr |
-| V100 SXM2 32GB | Volta | 7.4 | $8,700 → $2,000 | 23% | 10%/yr |
-| GeForce RTX 2080 | Turing | 6.8 | $2,000 → $500 | 25% | 7%/yr |
-| Quadro RTX 6000 | Turing | 6.8 | $4,700 → $1,700 | 36% | 9%/yr |
-| Tesla T4 | Turing | 6.8 | $3,400 → $800 | 24% | 10%/yr |
-| RTX A6000 | Ampere | 4.7 | $8,400 → $5,300 | 63% | 8%/yr |
-| A100 40GB PCIe | Ampere | 5.1 | $8,500 → $6,800 | 80% | 3%/yr |
-| GeForce RTX 3090 | Ampere | 4.8 | $3,800 → $1,500 | 39% | 5%/yr |
-| GeForce RTX 3070 | Ampere | 4.8 | $1,700 → $550 | 32% | 11%/yr |
-| A40 PCIe | Ampere | 4.7 | $5,800 → $5,800 | 100% | -3%/yr |
-| RTX A4000 | Ampere | 4.2 | $1,700 → $900 | 53% | 10%/yr |
-| RTX A5000 | Ampere | 4.2 | $2,850 → $1,850 | 65% | 5%/yr |
-| GeForce RTX 4090 | Ada Lovelace | 2.8 | $3,700 → $3,200 | 86% | -7%/yr |
-| L40S | Ada Lovelace | 2.1 | $14,000 → $9,750 | 70% | 14%/yr |
-| GeForce RTX 3090 Ti | Ampere | 3.4 | $2,600 → $1,950 | 75% | 7%/yr |
-| H100 PCIe 80GB | Hopper | 2.3 | $34,800 → $25,100 | 72% | 12%/yr |
-| H100 PCIe 96GB | Hopper | 2.3 | $39,000 → $30,000 | 77% | 10%/yr |
-| L4 | Ada Lovelace | 2.3 | $3,270 → $2,500 | 76% | 7%/yr |
-| H100 SXM5 80GB | Hopper | 1.9 | $18,550 → $18,550 | 100% | 0%/yr |
-| RTX PRO 6000 | Blackwell | 0.8 | $7,500 → $6,700 | 89% | 14%/yr |
-| GeForce RTX 5090 | Blackwell | 1.2 | $3,200 → $2,200 | 69% | 18%/yr |
+| GPU | Generation | VRAM | FP16 TFLOPS | Age (yr) | Peak → Latest | Residual | Annual Depr | $/TFLOPS |
+|-----|-----------|------|-------------|----------|---------------|----------|-------------|----------|
+| Tesla P4 | Pascal | 8GB | 89.1 | 8.8 | $3,000 → $150 | 5% | 11%/yr | $2 |
+| Tesla P100 16GB | Pascal | 16GB | 19.1 | 9.0 | $3,600 → $400 | 11% | 10%/yr | $21 |
+| V100 SXM2 32GB | Volta | 32GB | 31.3 | 7.4 | $8,700 → $2,000 | 23% | 10%/yr | $64 |
+| GeForce RTX 2080 | Turing | 8GB | 20.1 | 6.8 | $2,000 → $500 | 25% | 7%/yr | $25 |
+| Quadro RTX 6000 | Turing | 24GB | 32.6 | 6.8 | $4,700 → $1,700 | 36% | 9%/yr | $52 |
+| Tesla T4 | Turing | 16GB | 65.1 | 6.8 | $3,400 → $800 | 24% | 10%/yr | $12 |
+| RTX A6000 | Ampere | 48GB | 38.7 | 4.7 | $8,400 → $5,300 | 63% | 8%/yr | $137 |
+| A100 40GB PCIe | Ampere | 40GB | 78.0 | 5.1 | $8,500 → $6,800 | 80% | 3%/yr | $87 |
+| GeForce RTX 3090 | Ampere | 24GB | 35.6 | 4.8 | $3,800 → $1,500 | 39% | 5%/yr | $42 |
+| GeForce RTX 3070 | Ampere | 8GB | 20.3 | 4.8 | $1,700 → $550 | 32% | 11%/yr | $27 |
+| A40 PCIe | Ampere | 48GB | 37.4 | 4.7 | $5,800 → $5,800 | 100% | -3%/yr | $155 |
+| RTX A4000 | Ampere | 16GB | 19.2 | 4.2 | $1,700 → $900 | 53% | 10%/yr | $47 |
+| RTX A5000 | Ampere | 24GB | 27.8 | 4.2 | $2,850 → $1,850 | 65% | 5%/yr | $67 |
+| GeForce RTX 4090 | Ada Lovelace | 24GB | 82.6 | 2.8 | $3,700 → $3,200 | 86% | -7%/yr | $39 |
+| L40S | Ada Lovelace | 48GB | 91.6 | 2.1 | $14,000 → $9,750 | 70% | 14%/yr | $106 |
+| GeForce RTX 3090 Ti | Ampere | 24GB | 40.0 | 3.4 | $2,600 → $1,950 | 75% | 7%/yr | $49 |
+| H100 PCIe 80GB | Hopper | 80GB | 204.9 | 2.3 | $34,800 → $25,100 | 72% | 12%/yr | $122 |
+| H100 PCIe 96GB | Hopper | 96GB | 248.3 | 2.3 | $39,000 → $30,000 | 77% | 10%/yr | $121 |
+| L4 | Ada Lovelace | 24GB | 30.3 | 2.3 | $3,270 → $2,500 | 76% | 7%/yr | $83 |
+| H100 SXM5 80GB | Hopper | 80GB | 267.6 | 1.9 | $18,550 → $18,550 | 100% | 0%/yr | $69 |
+| RTX PRO 6000 | Blackwell | 96GB | 125.2 | 0.8 | $7,500 → $6,700 | 89% | 14%/yr | $54 |
+| GeForce RTX 5090 | Blackwell | 32GB | 104.8 | 1.2 | $3,200 → $2,200 | 69% | 18%/yr | $21 |
 
 ## 2. Three Phases of GPU Depreciation
 
@@ -149,6 +149,9 @@ KEY METRIC: Watch utilisation rates in earnings reports.
 
 ### 05 Vram Vs Residual
 ![05_vram_vs_residual.png](output/05_vram_vs_residual.png)
+
+### 05B Compute Value Per Tflops
+![05b_compute_value_per_tflops.png](output/05b_compute_value_per_tflops.png)
 
 ### 06 Buy Vs Rent Breakeven
 ![06_buy_vs_rent_breakeven.png](output/06_buy_vs_rent_breakeven.png)

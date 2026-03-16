@@ -20,13 +20,15 @@ def generate_report(
 
     # ── Key findings ─────────────────────────────────────────
     lines.append("## 1. Depreciation Summary\n")
-    lines.append("| GPU | Generation | Age (yr) | Peak → Latest | Residual | Annual Depr |")
-    lines.append("|-----|-----------|----------|---------------|----------|-------------|")
+    lines.append("| GPU | Generation | VRAM | FP16 TFLOPS | Age (yr) | Peak → Latest | Residual | Annual Depr | $/TFLOPS |")
+    lines.append("|-----|-----------|------|-------------|----------|---------------|----------|-------------|----------|")
     for _, r in summary.iterrows():
         lines.append(
-            f'| {r["gpu"]} | {r["generation"]} | {r["age_years"]:.1f} | '
+            f'| {r["gpu"]} | {r["generation"]} | {r["vram_gb"]:.0f}GB | '
+            f'{r["fp16_tflops"]:.1f} | {r["age_years"]:.1f} | '
             f'${r["peak_price"]:,.0f} → ${r["latest_price"]:,.0f} | '
-            f'{r["residual_pct_of_peak"]:.0f}% | {r["annual_depr_pct"]:.0f}%/yr |'
+            f'{r["residual_pct_of_peak"]:.0f}% | {r["annual_depr_pct"]:.0f}%/yr | '
+            f'${r["usd_per_tflops"]:,.0f} |'
         )
 
     lines.append("\n## 2. Three Phases of GPU Depreciation\n")
