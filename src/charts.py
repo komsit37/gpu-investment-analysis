@@ -50,17 +50,18 @@ def chart_depreciation_curves(df: pd.DataFrame, out_dir: str):
         cat = grp["category"].iloc[0]
         first_price = grp["price"].iloc[0]
         pct = grp["price"] / first_price * 100
-        ax.plot(grp["months"], pct,
+        ax.plot(grp["date"], pct,
                 marker=CAT_MARKERS.get(cat, "o"), markersize=4,
                 color=GEN_COLORS.get(gen, "#888"),
                 label=gpu, alpha=0.8, linewidth=1.5)
 
     ax.axhline(100, color="#8b949e", ls="--", lw=0.8, alpha=0.5)
     ax.axhline(50, color="#e74c3c", ls="--", lw=0.8, alpha=0.4)
-    ax.text(2, 52, "50% value remaining", fontsize=8, color="#e74c3c", alpha=0.6)
-    ax.set_title("GPU Depreciation Curves — % of First Observed Price vs Months Since Launch",
+    ax.text(ax.get_xlim()[0], 52, "50% value remaining", fontsize=8,
+            color="#e74c3c", alpha=0.6)
+    ax.set_title("GPU Depreciation Curves — % of First Observed Price Over Time",
                  fontsize=16, fontweight="bold", pad=15)
-    ax.set_xlabel("Months Since Launch (Release Date)")
+    ax.set_xlabel("Date")
     ax.set_ylabel("% of First Observed Price")
     ax.set_ylim(0, 180)
     ax.grid(True, alpha=0.3)

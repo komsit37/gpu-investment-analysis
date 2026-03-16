@@ -1,5 +1,5 @@
 # NVIDIA GPU Depreciation & Investment Analysis
-_Generated: 2026-03-16 13:28_
+_Generated: 2026-03-16 16:44_
 
 > **Purpose**: Evaluate whether NVIDIA GPUs hold value over time,
 > and what that means for investing in CRWV, NBIN, NVDA, and ORCL.
