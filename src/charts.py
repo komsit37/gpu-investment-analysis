@@ -50,8 +50,7 @@ def chart_depreciation_curves(df: pd.DataFrame, out_dir: str):
         cat = grp["category"].iloc[0]
         first_price = grp["price"].iloc[0]
         pct = grp["price"] / first_price * 100
-        months = grp["months"] - grp["months"].iloc[0]
-        ax.plot(months, pct,
+        ax.plot(grp["months"], pct,
                 marker=CAT_MARKERS.get(cat, "o"), markersize=4,
                 color=GEN_COLORS.get(gen, "#888"),
                 label=gpu, alpha=0.8, linewidth=1.5)
@@ -59,10 +58,10 @@ def chart_depreciation_curves(df: pd.DataFrame, out_dir: str):
     ax.axhline(100, color="#8b949e", ls="--", lw=0.8, alpha=0.5)
     ax.axhline(50, color="#e74c3c", ls="--", lw=0.8, alpha=0.4)
     ax.text(2, 52, "50% value remaining", fontsize=8, color="#e74c3c", alpha=0.6)
-    ax.set_title("GPU Depreciation Curves — % of Initial Price vs Months Observed",
+    ax.set_title("GPU Depreciation Curves — % of First Observed Price vs Months Since Launch",
                  fontsize=16, fontweight="bold", pad=15)
-    ax.set_xlabel("Months Since First Price Observation")
-    ax.set_ylabel("% of Initial Price")
+    ax.set_xlabel("Months Since Launch (Release Date)")
+    ax.set_ylabel("% of First Observed Price")
     ax.set_ylim(0, 180)
     ax.grid(True, alpha=0.3)
     ax.legend(fontsize=7, ncol=3, loc="upper right")
@@ -283,7 +282,7 @@ def chart_generation_boxplot(df: pd.DataFrame, out_dir: str):
     for gpu, grp in df.sort_values("date").groupby("gpu"):
         first_price = grp["price"].iloc[0]
         latest_price = grp["price"].iloc[-1]
-        age_months = grp["months"].iloc[-1] - grp["months"].iloc[0]
+        age_months = grp["months"].iloc[-1]  # months since release date
         if age_months >= 6:
             annual_depr = (1 - latest_price / first_price) / (age_months / 12) * 100
             records.append({

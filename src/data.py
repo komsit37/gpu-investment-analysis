@@ -36,7 +36,7 @@ def build_summary_df(df: pd.DataFrame) -> pd.DataFrame:
         peak = grp["price"].max()
         latest = grp["price"].iloc[-1]
         first = grp["price"].iloc[0]
-        age_months = grp["months"].iloc[-1] - grp["months"].iloc[0]
+        age_months = grp["months"].iloc[-1]  # months since release date
         age_years = max(age_months / 12, 0.25)
         annual_depr = (1 - latest / first) / age_years * 100
 
